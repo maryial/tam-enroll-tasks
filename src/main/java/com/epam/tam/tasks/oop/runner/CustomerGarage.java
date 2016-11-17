@@ -9,18 +9,24 @@ import com.epam.tam.tasks.oop.entities.ICarrier;
 import com.epam.tam.tasks.oop.entities.PassengerPlane;
 import com.epam.tam.tasks.oop.entities.Plane;
 import com.epam.tam.tasks.oop.exceptions.PlaneOverloadedException;
+import com.epam.tam.tasks.oop.util.HSQLProcessor;
+import com.epam.tam.tasks.oop.util.IProcessor;
 import com.epam.tam.tasks.oop.util.JsonProcessor;
 
 public class CustomerGarage {
 
 
 	public static void main(String[] args) {
-		PlaneShop superShop = new PlaneShop(new JsonProcessor());
+		IProcessor dataProcessor = new HSQLProcessor();
+		PlaneShop superShop = new PlaneShop(dataProcessor);
 		List<Plane> garage = new ArrayList<Plane>();
 		System.out.println("Welcome to the super plane shop!");
 		garage.addAll(superShop.runShop());
 		System.out.println("Customer launches all planes: ");
 		launchPlanes(garage);
+		if(dataProcessor instanceof HSQLProcessor) {
+			((HSQLProcessor) dataProcessor).stop();
+		}
 	}
 	
 	private static void launchPlanes(List<Plane> garage) {
