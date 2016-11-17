@@ -12,9 +12,9 @@ import java.util.Map;
 
 import org.hsqldb.Server;
 
-import com.epam.tam.tasks.oop.entities.PlaneSpecificationField;
-import com.epam.tam.tasks.oop.exceptions.FieldInPlaneSpecificationNotFoundException;
-import com.epam.tam.tasks.oop.exceptions.PlaneNotFoundException;
+import com.epam.tam.tasks.oop.entity.PlaneSpecificationField;
+import com.epam.tam.tasks.oop.exception.FieldInPlaneSpecificationNotFoundException;
+import com.epam.tam.tasks.oop.exception.PlaneNotFoundException;
 
 public class HSQLProcessor implements IProcessor{
 
@@ -68,7 +68,6 @@ public class HSQLProcessor implements IProcessor{
 			rs.close();
 			connection.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -91,7 +90,7 @@ public class HSQLProcessor implements IProcessor{
 	
 	@Override
 	public Map<String, String> readAllPlanes() {
-		Map<String, String> planes = new HashMap();
+		Map<String, String> planes = new HashMap<String, String>();
 		StringBuilder plane = new StringBuilder();
 		try {
 			Class.forName("org.hsqldb.jdbcDriver");
@@ -115,7 +114,6 @@ public class HSQLProcessor implements IProcessor{
 			rs.close();
 			connection.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return planes;
@@ -130,13 +128,13 @@ public class HSQLProcessor implements IProcessor{
 		try {
 			Class.forName("org.hsqldb.jdbcDriver");
 			connection = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/iva", "sa", ""); 
-			rs = connection.prepareStatement("select " + field.name() + " from planes where model = '" + name + "';").executeQuery();
+			rs = connection.prepareStatement("select " + field.toString() + " from planes where model = '" + name + "';").executeQuery();
 			if(!rs.next()) {
 				throw new PlaneNotFoundException(name);
 			}			
 			foundField = rs.getObject(1) + "";		
 		} catch (SQLException e2) {
-			throw new FieldInPlaneSpecificationNotFoundException(field.name(), name);
+			throw new FieldInPlaneSpecificationNotFoundException(field.toString(), name);
 		} catch (ClassNotFoundException e2) {
 			e2.printStackTrace();
 		}		
@@ -154,21 +152,21 @@ public class HSQLProcessor implements IProcessor{
 		try {
 			Class.forName("org.hsqldb.jdbcDriver");
 			connection = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/iva", "sa", ""); // can through sql exception
-			if(data.containsKey(PlaneSpecificationField.crew)) {
+			if(data.containsKey(PlaneSpecificationField.CREW)) {
 				connection.prepareStatement("insert into planes (model, type, flightDistance, capacity, crew) "
-						+ "values ('" + data.get(PlaneSpecificationField.model.name()) 
-						+ "', '" + data.get(PlaneSpecificationField.type.name())
-						+ "', " + Integer.parseInt(data.get(PlaneSpecificationField.flightDistance.name()))
-						+ ", " + Integer.parseInt(data.get(PlaneSpecificationField.capacity.name())) 
-						+ ", " + Integer.parseInt(data.get(PlaneSpecificationField.crew.name())) 
+						+ "values ('" + data.get(PlaneSpecificationField.MODEL.toString()) 
+						+ "', '" + data.get(PlaneSpecificationField.TYPE.toString())
+						+ "', " + Integer.parseInt(data.get(PlaneSpecificationField.FLIGHT_DISTANCE.toString()))
+						+ ", " + Integer.parseInt(data.get(PlaneSpecificationField.CAPACITY.toString())) 
+						+ ", " + Integer.parseInt(data.get(PlaneSpecificationField.CREW.toString())) 
 						+ ");").execute();
 			}
 			else {
 				connection.prepareStatement("insert into planes (model, type, flightDistance, capacity) "
-						+ "values ('" + data.get(PlaneSpecificationField.model.name()) 
-						+ "', '" + data.get(PlaneSpecificationField.type.name())
-						+ "', " + Integer.parseInt(data.get(PlaneSpecificationField.flightDistance.name()))
-						+ ", " + Integer.parseInt(data.get(PlaneSpecificationField.capacity.name())) 
+						+ "values ('" + data.get(PlaneSpecificationField.MODEL.toString()) 
+						+ "', '" + data.get(PlaneSpecificationField.TYPE.toString())
+						+ "', " + Integer.parseInt(data.get(PlaneSpecificationField.FLIGHT_DISTANCE.toString()))
+						+ ", " + Integer.parseInt(data.get(PlaneSpecificationField.CAPACITY.toString())) 
 						+ ");").execute();
 			}					
 		} catch (ClassNotFoundException e2) {
@@ -180,7 +178,6 @@ public class HSQLProcessor implements IProcessor{
 			rs.close();
 			connection.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
 	}

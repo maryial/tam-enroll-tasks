@@ -1,6 +1,6 @@
-package com.epam.tam.tasks.oop.entities;
+package com.epam.tam.tasks.oop.entity;
 
-import com.epam.tam.tasks.oop.exceptions.PlaneOverloadedException;
+import com.epam.tam.tasks.oop.exception.PlaneOverloadedException;
 
 public interface ICarrier {
 	public int getCapacity();

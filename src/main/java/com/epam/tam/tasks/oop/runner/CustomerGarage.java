@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.epam.tam.tasks.oop.entities.CargoPlane;
-import com.epam.tam.tasks.oop.entities.ICarrier;
-import com.epam.tam.tasks.oop.entities.PassengerPlane;
-import com.epam.tam.tasks.oop.entities.Plane;
-import com.epam.tam.tasks.oop.exceptions.PlaneOverloadedException;
+import com.epam.tam.tasks.oop.entity.CargoPlane;
+import com.epam.tam.tasks.oop.entity.ICarrier;
+import com.epam.tam.tasks.oop.entity.PassengerPlane;
+import com.epam.tam.tasks.oop.entity.Plane;
+import com.epam.tam.tasks.oop.exception.PlaneOverloadedException;
 import com.epam.tam.tasks.oop.util.HSQLProcessor;
 import com.epam.tam.tasks.oop.util.IProcessor;
 import com.epam.tam.tasks.oop.util.JsonProcessor;
@@ -17,7 +17,7 @@ public class CustomerGarage {
 
 
 	public static void main(String[] args) {
-		IProcessor dataProcessor = new HSQLProcessor();
+		IProcessor dataProcessor = new JsonProcessor();
 		PlaneShop superShop = new PlaneShop(dataProcessor);
 		List<Plane> garage = new ArrayList<Plane>();
 		System.out.println("Welcome to the super plane shop!");

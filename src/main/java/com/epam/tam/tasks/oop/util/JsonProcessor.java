@@ -1,41 +1,29 @@
 package com.epam.tam.tasks.oop.util;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import com.epam.tam.tasks.oop.exceptions.FieldInPlaneSpecificationNotFoundException;
-import com.epam.tam.tasks.oop.exceptions.PlaneNotFoundException;
-import com.epam.tam.tasks.oop.entities.*;
+import com.epam.tam.tasks.oop.exception.FieldInPlaneSpecificationNotFoundException;
+import com.epam.tam.tasks.oop.exception.PlaneNotFoundException;
+import com.epam.tam.tasks.oop.entity.*;
 public class JsonProcessor implements IProcessor {
 	
 	private final static String planesJson = "/planes.json";
 	private final static String planesArrayName = "planes";
 	private URL resource = JsonProcessor.class.getResource(planesJson);
 	private JSONParser parser;
-	//private JSONObject planeSpecification;
 	private JSONArray planes;
 	private Object obj;
 	private JSONObject jsonObject;
@@ -43,8 +31,6 @@ public class JsonProcessor implements IProcessor {
 	public JsonProcessor() {
 		parser = new JSONParser();
 		readData();
-		//planeSpecification = new JSONObject(Utils.readResourceFile(planesJson));
-		//planes = planeSpecification.getJSONArray("planes");
 	}
 	public JsonProcessor(String filename) {
 		this();
@@ -74,28 +60,24 @@ public class JsonProcessor implements IProcessor {
 	@Override
 	public Map<String, String> readAllPlanes() {
 		Map<String, String> availableModels = new HashMap<String, String>();
-		
-		//JSONObject obj = new JSONObject(Utils.readResourceFile(planesJson));
-		//JSONArray planes = obj.getJSONArray(planesArrayName);		
-		
 		String model;
 		StringBuilder plane = new StringBuilder();
 		for (Object o : planes) {
 			plane.setLength(0);
 			JSONObject planeObj = (JSONObject) o;
-			model = (String) planeObj.get(PlaneSpecificationField.model.name());
-			plane.append((String)planeObj.get(PlaneSpecificationField.type.name()));
+			model = (String) planeObj.get(PlaneSpecificationField.MODEL.toString());
+			plane.append((String)planeObj.get(PlaneSpecificationField.TYPE.toString()));
 			plane.append(": model ");
 		    plane.append(model);
 		    plane.append(" - flight distance ");
-		    plane.append((String)planeObj.get(PlaneSpecificationField.flightDistance.name()));
-		    if(planeObj.containsKey(PlaneSpecificationField.capacity.name())) {
+		    plane.append((String)planeObj.get(PlaneSpecificationField.FLIGHT_DISTANCE.toString()));
+		    if(planeObj.containsKey(PlaneSpecificationField.CAPACITY.toString())) {
 		    	plane.append(", with capacity ");
-			    plane.append(planeObj.get(PlaneSpecificationField.capacity.name()));
+			    plane.append(planeObj.get(PlaneSpecificationField.CAPACITY.toString()));
 		    }
-		    if(planeObj.containsKey(PlaneSpecificationField.crew.name())) {
+		    if(planeObj.containsKey(PlaneSpecificationField.CREW.toString())) {
 		    	plane.append(", with steward crew of ");
-			    plane.append(planeObj.get(PlaneSpecificationField.crew.name()));
+			    plane.append(planeObj.get(PlaneSpecificationField.CREW.toString()));
 		    }
 		    availableModels.put(model, plane.toString());	
 		}
@@ -105,15 +87,15 @@ public class JsonProcessor implements IProcessor {
 	public String getPlainSpecificationField(PlaneSpecificationField field, String model) throws FieldInPlaneSpecificationNotFoundException, PlaneNotFoundException {
 		for (Object o : planes) {
 			JSONObject planeObj = (JSONObject) o;
-			if(model.equals((String) planeObj.get(PlaneSpecificationField.model.name()))) {
-				return (String) planeObj.get(field.name());
+			if(model.equals((String) planeObj.get(PlaneSpecificationField.MODEL.toString()))) {
+				return (String) planeObj.get(field.toString());
 			}			
 		}
-		if(field.equals(PlaneSpecificationField.model.name())) {
+		if(field.equals(PlaneSpecificationField.MODEL.toString())) {
 			throw new PlaneNotFoundException(model);
 		}
 		else {
-			throw new FieldInPlaneSpecificationNotFoundException(field.name(), model);
+			throw new FieldInPlaneSpecificationNotFoundException(field.toString(), model);
 		}
 	}
 

@@ -1,7 +1,7 @@
-package com.epam.tam.tasks.oop.entities;
+package com.epam.tam.tasks.oop.entity;
 
-import com.epam.tam.tasks.oop.exceptions.FieldInPlaneSpecificationNotFoundException;
-import com.epam.tam.tasks.oop.exceptions.PlaneNotFoundException;
+import com.epam.tam.tasks.oop.exception.FieldInPlaneSpecificationNotFoundException;
+import com.epam.tam.tasks.oop.exception.PlaneNotFoundException;
 import com.epam.tam.tasks.oop.util.IProcessor;
 
 
@@ -16,20 +16,20 @@ public class PlaneFactory {
 	public Plane createPlane(String model) throws PlaneNotFoundException, FieldInPlaneSpecificationNotFoundException {		
 		try {
 			PlaneType planeType = getPlaneType(model);
-			int flightDistance = Integer.parseInt(getPlainSpecificationField(PlaneSpecificationField.flightDistance, model));
+			int flightDistance = Integer.parseInt(getPlainSpecificationField(PlaneSpecificationField.FLIGHT_DISTANCE, model));
 			int capacity;
 			switch(planeType) {
-				case PassengerPlaneWithStewardCrew:
-					int crewSize = Integer.parseInt(getPlainSpecificationField(PlaneSpecificationField.crew, model));
-					capacity = Integer.parseInt(getPlainSpecificationField(PlaneSpecificationField.capacity, model));
+				case PASSENGER_PLANE_WITH_STEWARD_CREW:
+					int crewSize = Integer.parseInt(getPlainSpecificationField(PlaneSpecificationField.CREW, model));
+					capacity = Integer.parseInt(getPlainSpecificationField(PlaneSpecificationField.CAPACITY, model));
 					PassengerPlaneWithStewardCrew bigPassengerPlane = new PassengerPlaneWithStewardCrew(model, flightDistance, capacity, crewSize);
 					return bigPassengerPlane;					
-				case PassengerPlane:
-					capacity = Integer.parseInt(getPlainSpecificationField(PlaneSpecificationField.capacity, model));
+				case PASSENGER_PLANE:
+					capacity = Integer.parseInt(getPlainSpecificationField(PlaneSpecificationField.CAPACITY, model));
 					PassengerPlane passengerPlane = new PassengerPlane(model, flightDistance, capacity);
 					return passengerPlane;
-				case CargoPlane:
-					capacity = Integer.parseInt(getPlainSpecificationField(PlaneSpecificationField.capacity, model));
+				case CARGO_PLANE:
+					capacity = Integer.parseInt(getPlainSpecificationField(PlaneSpecificationField.CAPACITY, model));
 					CargoPlane cargoPlane = new CargoPlane(model, flightDistance, capacity);
 					return cargoPlane;
 			}			
@@ -42,10 +42,10 @@ public class PlaneFactory {
 	
 		
 	private PlaneType getPlaneType(String model) throws FieldInPlaneSpecificationNotFoundException, PlaneNotFoundException {
-		String type = dataProcessor.getPlainSpecificationField(PlaneSpecificationField.type, model);
+		String type = dataProcessor.getPlainSpecificationField(PlaneSpecificationField.TYPE, model);
 		if (type != null) {
 		      for (PlaneType plane : PlaneType.values()) {
-		        if (type.equalsIgnoreCase(plane.name())) {
+		        if (type.equalsIgnoreCase(plane.toString())) {
 		          return plane;
 		        }
 		      }

@@ -1,4 +1,4 @@
-package com.epam.tam.tasks.oop.exceptions;
+package com.epam.tam.tasks.oop.exception;
 
 public class PlaneNotFoundException extends Exception{
 	

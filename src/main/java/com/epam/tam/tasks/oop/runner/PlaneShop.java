@@ -8,15 +8,15 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
-import com.epam.tam.tasks.oop.entities.CargoPlane;
-import com.epam.tam.tasks.oop.entities.ICarrier;
-import com.epam.tam.tasks.oop.entities.PassengerPlane;
-import com.epam.tam.tasks.oop.entities.Plane;
-import com.epam.tam.tasks.oop.entities.PlaneFactory;
-import com.epam.tam.tasks.oop.entities.PlaneSpecificationField;
-import com.epam.tam.tasks.oop.entities.PlaneType;
-import com.epam.tam.tasks.oop.exceptions.FieldInPlaneSpecificationNotFoundException;
-import com.epam.tam.tasks.oop.exceptions.PlaneNotFoundException;
+import com.epam.tam.tasks.oop.entity.CargoPlane;
+import com.epam.tam.tasks.oop.entity.ICarrier;
+import com.epam.tam.tasks.oop.entity.PassengerPlane;
+import com.epam.tam.tasks.oop.entity.Plane;
+import com.epam.tam.tasks.oop.entity.PlaneFactory;
+import com.epam.tam.tasks.oop.entity.PlaneSpecificationField;
+import com.epam.tam.tasks.oop.entity.PlaneType;
+import com.epam.tam.tasks.oop.exception.FieldInPlaneSpecificationNotFoundException;
+import com.epam.tam.tasks.oop.exception.PlaneNotFoundException;
 import com.epam.tam.tasks.oop.util.IProcessor;
 import com.epam.tam.tasks.oop.util.Utils;
 
@@ -264,56 +264,48 @@ public class PlaneShop {
 	
 	
 	private <T extends Plane> Stream<Plane> sortPlanesByDistanceDesc(Class<T> className) {
-		//System.out.println("Planes of type " + className.getName() + " sorted by flight distance from max to min: ");		
 		return garage.stream()
 				.filter(x -> className.isInstance(x))
 				.sorted((p1, p2) -> Integer.compare(p2.getFlightDistance(), p1.getFlightDistance()));			
 	}
 	
 	private <T extends Plane> Stream<Plane> sortPlanesByDistanceAsc(Class<T> className) {
-		//System.out.println("Planes of type " + className.getName() + " sorted by flight distance from min to max: ");		
 		return garage.stream()
 				.filter(x -> className.isInstance(x))
 				.sorted((p1, p2) -> Integer.compare(p1.getFlightDistance(), p2.getFlightDistance()));			
 	}
 	
-	private <T extends Plane> Stream<Plane> sortPlanesByCapacityDesc(Class<T> className) {
-		//System.out.println("Planes of type " + className.getName() + " sorted by capacity distance from max to min: ");		
+	private <T extends Plane> Stream<Plane> sortPlanesByCapacityDesc(Class<T> className) {		
 		return garage.stream()
 				.filter(x -> className.isInstance(x) && x instanceof ICarrier)
 				.sorted((p1, p2) -> Integer.compare(((ICarrier) p2).getCapacity(), ((ICarrier) p1).getCapacity()));			
 	}
 	
-	private <T extends Plane> Stream<Plane> sortPlanesByCapacityAsc(Class<T> className) {
-		//System.out.println("Planes of type " + className.getName() + " sorted by capacity distance from min to max: ");		
+	private <T extends Plane> Stream<Plane> sortPlanesByCapacityAsc(Class<T> className) {		
 		return garage.stream()
 				.filter(x -> className.isInstance(x) && x instanceof ICarrier)
 				.sorted((p1, p2) -> Integer.compare(((ICarrier) p1).getCapacity(), ((ICarrier) p2).getCapacity()));			
 	}
 	
-	private <T extends Plane> Stream<Plane> filterPlanesWithCapacityMoreThan(Class<T> className, int min) {		
-		//System.out.println("Planes of type " + className.getName() + " with more than " + min + " capacity: ");		
+	private <T extends Plane> Stream<Plane> filterPlanesWithCapacityMoreThan(Class<T> className, int min) {				
 		return garage.stream()
 				.filter(x -> x instanceof ICarrier && className.isInstance(x))
 				.filter((x) ->  ((ICarrier) x).getCapacity() > min);				
 	}
 	
-	private <T extends Plane> Stream<Plane> filterPlanesWithCapacityLessThan(Class<T> className, int max) {		
-		//System.out.println("Planes of type " + className.getName() + " with less than " + max + " capacity: ");		
+	private <T extends Plane> Stream<Plane> filterPlanesWithCapacityLessThan(Class<T> className, int max) {				
 		return garage.stream()
 				.filter(x -> x instanceof ICarrier && className.isInstance(x))
 				.filter((x) ->  ((ICarrier) x).getCapacity() < max);				
 	}
 	
-	private <T extends Plane> Stream<Plane> filterPlanesWithFlightDistanceMoreThan(Class<T> className, int min) {		
-		//System.out.println("Planes of type " + className.getName() + " with more than " + min + " flight distance: ");		
+	private <T extends Plane> Stream<Plane> filterPlanesWithFlightDistanceMoreThan(Class<T> className, int min) {				
 		return garage.stream()
 				.filter(x -> className.isInstance(x))
 				.filter((x) ->  x.getFlightDistance() > min);				
 	}
 	
-	private <T extends Plane> Stream<Plane> filterPlanesWithFlightDistanceLessThan(Class<T> className, int max) {		
-		//System.out.println("Planes of type " + className.getName() + " with less than " + max + " flight distance: ");		
+	private <T extends Plane> Stream<Plane> filterPlanesWithFlightDistanceLessThan(Class<T> className, int max) {				
 		return garage.stream()
 				.filter(x -> className.isInstance(x))
 				.filter((x) ->  x.getFlightDistance() < max);				
@@ -322,7 +314,7 @@ public class PlaneShop {
 	private void addCustomPlaneModel() {
 		boolean correctInput = true;
 		Map<String, String> customPlane = new HashMap<String, String>();
-		List<String> allowedPlanes = new ArrayList();
+		List<String> allowedPlanes = new ArrayList<String>();
 		allowedPlanes.add("a");
 		allowedPlanes.add("b");
 		allowedPlanes.add("c");
@@ -337,24 +329,24 @@ public class PlaneShop {
 			}
 		} while (!correctInput);
 		System.out.println("Input plane model: ");	
-		customPlane.put(PlaneSpecificationField.model.name(), in.nextLine());
+		customPlane.put(PlaneSpecificationField.MODEL.toString(), in.nextLine());
 		System.out.println("Input plane capacity: ");
 		int capacity = Utils.parseNumber();
-		customPlane.put(PlaneSpecificationField.capacity.name(), capacity + "");
+		customPlane.put(PlaneSpecificationField.CAPACITY.toString(), capacity + "");
 		System.out.println("Input plane flight distance ");
 		int distance = Utils.parseNumber();
-		customPlane.put(PlaneSpecificationField.flightDistance.name(), distance + "");
+		customPlane.put(PlaneSpecificationField.FLIGHT_DISTANCE.toString(), distance + "");
 		if(planeType.equals("a")) {
-			customPlane.put(PlaneSpecificationField.type.name(), PlaneType.PassengerPlaneWithStewardCrew.name());
+			customPlane.put(PlaneSpecificationField.TYPE.toString(), PlaneType.PASSENGER_PLANE_WITH_STEWARD_CREW.toString());
 			System.out.println("Input plane crew number ");
 			int crew = Utils.parseNumber();
-			customPlane.put(PlaneSpecificationField.crew.name(), crew + "");
+			customPlane.put(PlaneSpecificationField.CREW.toString(), crew + "");
 		}
 		else if(planeType.equals("b")) {
-			customPlane.put(PlaneSpecificationField.type.name(), PlaneType.PassengerPlane.name());
+			customPlane.put(PlaneSpecificationField.TYPE.toString(), PlaneType.PASSENGER_PLANE.toString());
 		}
 		else {
-			customPlane.put(PlaneSpecificationField.type.name(), PlaneType.CargoPlane.name());
+			customPlane.put(PlaneSpecificationField.TYPE.toString(), PlaneType.CARGO_PLANE.toString());
 		}
 		dataProcessor.write(customPlane);
 		availableModels.putAll(getAvailablePlaneModels());

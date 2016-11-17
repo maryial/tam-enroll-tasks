@@ -1,4 +1,4 @@
-package com.epam.tam.tasks.oop.entities;
+package com.epam.tam.tasks.oop.entity;
 
 import java.util.List;
 

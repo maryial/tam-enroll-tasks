@@ -1,6 +1,6 @@
-package com.epam.tam.tasks.oop.entities;
+package com.epam.tam.tasks.oop.entity;
 
-import com.epam.tam.tasks.oop.exceptions.PassengerPlaneOverloadedException;
+import com.epam.tam.tasks.oop.exception.PassengerPlaneOverloadedException;
 
 public class PassengerPlane extends Plane implements ICarrier{
 

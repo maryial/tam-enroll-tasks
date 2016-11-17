@@ -1,4 +1,4 @@
-package com.epam.tam.tasks.oop.entities;
+package com.epam.tam.tasks.oop.entity;
 
 public abstract class Plane {
 
@@ -28,7 +28,6 @@ public abstract class Plane {
 	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return "Plane " + model + " can fly " + flightDistance + " km";
 	}
 		
