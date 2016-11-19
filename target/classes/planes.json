@@ -1,0 +1,43 @@
+{	
+	"planes": [
+	  {
+	  	"type": "PassengerPlaneWithStewardCrew",
+	  	"model": "Boeing 737",
+	  	"flightDistance": "5000",
+	  	"capacity": "150",
+	  	"crew": "3"
+	  },
+	  {
+	  	"type": "PassengerPlaneWithStewardCrew",
+	  	"model": "Airbus 310",
+	  	"flightDistance": "6000",
+	  	"capacity": "260",
+	  	"crew": "4"  
+	  },
+	  {
+	  	"type": "PassengerPlaneWithStewardCrew",
+	  	"model": "AN 24",
+	  	"flightDistance": "1000",
+	  	"capacity": "52",
+	  	"crew": "2"  
+	  },
+	  {
+	  	"type": "PassengerPlane",
+	  	"model": "Gulfstream G450",
+	  	"flightDistance": "1000",
+	  	"capacity": "14"
+	  },
+	  {
+	  	"type": "CargoPlane",
+	  	"model": "Mriya",
+	  	"flightDistance": "15400",
+	  	"capacity": "190000"
+	  },
+	  {
+	  	"type": "CargoPlane",
+	  	"model": "Boeing C-17 Globemaster III",
+	  	"flightDistance": "4400",
+	  	"capacity": "50000"
+	  }	    
+	]
+}
